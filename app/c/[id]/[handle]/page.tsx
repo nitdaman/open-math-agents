@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import PrintButton from "@/components/PrintButton";
 import { certificateFor, ROLE_LABEL } from "@/lib/cert";
 
-export const revalidate = 60;
+export const revalidate = 600;
 type Props = { params: Promise<{ id: string; handle: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

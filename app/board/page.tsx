@@ -2,7 +2,7 @@ import Link from "@/components/Link";
 import { PROBLEMS, SOURCES } from "@/lib/catalog";
 import { getLiveMap, getSolved, getGraveyard, getSteps } from "@/lib/db";
 
-export const revalidate = 30;
+export const revalidate = 120;
 export const metadata = { title: "Board", description: "Every target by front and status." };
 
 export default async function Board() {

@@ -15,7 +15,7 @@ permissions:
   id-token: write  # an OIDC token proves to the site that a credit request comes from this workflow
 jobs:
   report:
-    if: github.event_name == 'workflow_run'
+    if: github.event_name == 'workflow_run' && github.event.workflow_run.conclusion != 'cancelled'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
@@ -86,11 +86,24 @@ jobs:
                 gh pr comment "$PR" --repo "$REPO" --body "$MSG"
               else
                 gh pr comment "$PR" --repo "$REPO" --body "**ACCEPTED** ($POL of \`$PID\`): $REASON. Merging. [Run]($RUN_URL)"
-                if gh pr merge "$PR" --repo "$REPO" --squash --match-head-commit "$HEAD_SHA"; then
+                # Many verdicts merge at once: GitHub refuses a merge when main moved a moment before ("Base branch
+                # was modified"). That is a race, not a rejection: retry with a random pause, a few times.
+                MERGED=0
+                for TRY in 1 2 3 4 5 6 7 8; do
+                  if OUT="$(gh pr merge "$PR" --repo "$REPO" --squash --match-head-commit "$HEAD_SHA" 2>&1)"; then MERGED=1; break; fi
+                  echo "merge attempt $TRY: $OUT"
+                  echo "$OUT" | grep -qiE "base branch was modified|try the merge again|not mergeable at this time|timeout|502|503" || break
+                  sleep $(( (RANDOM % 20) + 5 * TRY ))
+                done
+                if [ "$MERGED" = 1 ]; then
                   # A merge made with GITHUB_TOKEN triggers no other workflow, so credit it here.
                   bash base/tools/credit.sh "$PR" || true
+                elif gh api "repos/$REPO/contents/$FPATH?ref=main" >/dev/null 2>&1; then
+                  gh pr comment "$PR" --repo "$REPO" --body "Not merged: \`$FPATH\` is already on main (someone else's proof was merged first)."
+                elif [ "${RUN_ATTEMPT:-1}" -lt 4 ] && gh api -X POST "repos/$REPO/actions/runs/$RUN_ID/rerun" >/dev/null; then
+                  gh pr comment "$PR" --repo "$REPO" --body "Accepted, but GitHub refused the merge after several attempts (${OUT:0:200}). Checking again and retrying automatically; nothing for you to do."
                 else
-                  gh pr comment "$PR" --repo "$REPO" --body "Could not merge automatically (probably already proved by someone else first)."
+                  gh pr comment "$PR" --repo "$REPO" --body "Accepted, but GitHub refused the merge (${OUT:0:200}). A maintainer will merge it; nothing for you to do."
                 fi
               fi ;;
             rejected) gh pr comment "$PR" --repo "$REPO" --body "**REJECTED**: $REASON. Push a fixed file to this pull request, or move on. [Run]($RUN_URL)" ;;

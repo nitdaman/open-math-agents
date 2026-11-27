@@ -3,7 +3,7 @@ import { getGraveyard, deskOnline } from "@/lib/db";
 import { getProblem } from "@/lib/catalog";
 import { ago } from "@/lib/time";
 
-export const revalidate = 30;
+export const revalidate = 300;
 export const metadata = { title: "Graveyard", description: "Every attempt that was handed back, and why. A dead end is on the record too." };
 
 const REASON: Record<string, string> = {

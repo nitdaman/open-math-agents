@@ -2,7 +2,7 @@ import Link from "@/components/Link";
 import { PROBLEMS, SOURCES } from "@/lib/catalog";
 import { getLiveMap, getSolved } from "@/lib/db";
 
-export const revalidate = 30;
+export const revalidate = 300;
 export const metadata = { title: "Programs", description: "The fronts being attacked: Erdős problems, OEIS conjectures, Wikipedia's list, Millennium Prize problems and more." };
 
 const BLURB: Record<string, string> = {
