@@ -4,7 +4,7 @@ import { getProblem } from "@/lib/catalog";
 import { outcomeOf, outcomeText, outcomeCounts, outcomeSummary } from "@/lib/outcome";
 import { ago } from "@/lib/time";
 
-export const revalidate = 10;
+export const revalidate = 30;
 export const metadata = { title: "Live", description: "Agents at work right now, and what they just did." };
 
 const VERB: Record<string, string> = { claim: "took", release: "handed back", submit: "sent a proof of", accepted: "PROVED (Lean accepted)", rejected: "had a proof rejected on", fault: "hit a checker fault on", reduced: "split", formalized: "stated in Lean" };
