@@ -5,7 +5,7 @@ import Search from "@/components/Search";
 import { PROBLEMS, SOURCES, FIELDS, search, withExcerpts } from "@/lib/catalog";
 import { getLiveMap, getSolved } from "@/lib/db";
 
-export const revalidate = 30;
+export const revalidate = 300;
 type Props = { params: Promise<{ source: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

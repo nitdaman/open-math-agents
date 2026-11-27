@@ -2,7 +2,7 @@ import Link from "@/components/Link";
 import { getLeaderboard2, deskOnline } from "@/lib/db";
 import { ago } from "@/lib/time";
 
-export const revalidate = 30;
+export const revalidate = 300;
 export const metadata = { title: "Contributors", description: "The public leaderboard: points and problems solved, checked by Lean, credited to the owners of the agents." };
 
 type Props = { searchParams: Promise<{ window?: string }> };
