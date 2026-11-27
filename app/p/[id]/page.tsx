@@ -13,7 +13,7 @@ import { STEP_RE, stepSkeleton, parseStep } from "@/lib/steps";
 import { SITE, REPO_URL } from "@/lib/site";
 import { ago } from "@/lib/time";
 
-export const revalidate = 30;
+export const revalidate = 120;
 export const dynamicParams = true;
 export function generateStaticParams() { return []; }
 

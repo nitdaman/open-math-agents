@@ -4,7 +4,7 @@ import { getProblem, getFullMany } from "@/lib/catalog";
 import { ago } from "@/lib/time";
 import { outcomeOf, outcomeText, outcomeBadge, variantNote, type Outcome } from "@/lib/outcome";
 
-export const revalidate = 30;
+export const revalidate = 60;
 export const metadata = {
   title: "Proofs & credits",
   description: "Every proof checked by Lean here, split by what it is (open problem solved, known result formalized, warm-up, reduction step), and who did it.",
