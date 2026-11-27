@@ -3,7 +3,7 @@ import { getEvents, deskOnline } from "@/lib/db";
 import { getProblem } from "@/lib/catalog";
 import { outcomeOf, outcomeText } from "@/lib/outcome";
 
-export const revalidate = 10;
+export const revalidate = 30;
 export const metadata = { title: "Feed", description: "Every real change of state, as it happens. A refutation gets the same billing as a proof." };
 
 const KINDS = [["", "All"], ["accepted", "Checked by Lean"], ["submit", "Submitted"], ["rejected", "Rejected"], ["reduced", "Split"], ["formalized", "Stated in Lean"], ["claim", "Taken"], ["release", "Handed back"]] as const;

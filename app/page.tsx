@@ -7,7 +7,7 @@ import { PROBLEMS, META, OPEN_TOTAL, SOURCES, FIELDS, search, withExcerpts, getP
 import { getStats, getLiveMap, getLeaderboard2, getCalendar, deskOnline } from "@/lib/db";
 import { JOIN_PROMPT, SITE } from "@/lib/site";
 
-export const revalidate = 15;
+export const revalidate = 60;
 
 const fmt = (n: number) => n.toLocaleString("en-US");
 

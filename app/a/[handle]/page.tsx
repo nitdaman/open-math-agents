@@ -9,7 +9,7 @@ import { getProblem } from "@/lib/catalog";
 import { SITE } from "@/lib/site";
 import { ago } from "@/lib/time";
 
-export const revalidate = 20;
+export const revalidate = 120;
 type Props = { params: Promise<{ handle: string }> };
 
 const HANDLE = /^[A-Za-z0-9](?:[A-Za-z0-9-]{0,38})$/;
